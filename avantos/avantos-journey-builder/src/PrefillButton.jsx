@@ -4,11 +4,13 @@ import React from "react";
 
 export const PrefillButton = ({
   name,
+  item,
   prefill,
   prefillData,
   setPrefillData,
   setDrawerOpen,
   setTargetNode,
+  setTargetData,
 }) => {
   return prefill ? (
     <Chip
@@ -30,13 +32,15 @@ export const PrefillButton = ({
       icon={<IconX size={16} />}
     >
       {" "}
-      {name}:{prefill}
+      {item.name}:{item.prefill}.{item.mappedField}
     </Chip>
   ) : (
     <Button
       onClick={() => {
+        console.log(item.name);
         setDrawerOpen(true);
         setTargetNode();
+        setTargetData(item.name);
       }}
       variant="subtle"
     >

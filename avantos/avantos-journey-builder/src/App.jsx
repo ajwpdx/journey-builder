@@ -7,11 +7,23 @@ import { Nodes } from "./Nodes";
 import { Prefill } from "./Prefill";
 import { Sidebar } from "./Sidebar";
 
+const initialPrefillData = [
+  { name: "dynamic_checkbox_group", prefill: null, mappedField: null },
+  { name: "dynamic_object", prefill: null, mappedField: null },
+  { name: "email", prefill: "Form A", mappedField: "email" },
+];
+
 export default function App() {
   const [formNodes, setFormNodes] = useState([]);
   const [openForm, setOpenForm] = useState(null);
-  const [drawerOpen, setDrawerOpen] = useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [targetNode, setTargetNode] = useState(null);
+  const [prefillData, setPrefillData] = useState(initialPrefillData);
+  const [targetData, setTargetData] = useState(null);
+
+  useEffect(() => {
+    setPrefillData(initialPrefillData);
+  }, [openForm]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,14 +38,27 @@ export default function App() {
 
   return (
     <MantineProvider theme={theme}>
-      <Sidebar open={drawerOpen} setOpen={setDrawerOpen} targetNode={targetNode} formNodes={formNodes} />
+      <Sidebar
+        targetData={targetData}
+        open={drawerOpen}
+        setOpen={setDrawerOpen}
+        targetNode={targetNode}
+        formNodes={formNodes}
+        prefillData={prefillData}
+        setPrefillData={setPrefillData}
+        setFormNodes={setFormNodes}
+      />
       <Box style={{ width: "100%" }}>
         <Nodes setOpenForm={setOpenForm} formNodes={formNodes} />
         {openForm ? (
           <Prefill
+            prefillData={prefillData}
+            setTargetData={setTargetData}
+            setPrefillData={setPrefillData}
             openForm={openForm}
             setTargetNode={setTargetNode}
             setDrawerOpen={setDrawerOpen}
+            initialPrefillData={initialPrefillData}
           />
         ) : null}
       </Box>

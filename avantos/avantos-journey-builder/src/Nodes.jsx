@@ -5,7 +5,6 @@ export const Nodes = ({ formNodes, setOpenForm }) => {
   return (
     <Box style={{ width: "100%", height: "100%" }}>
       {formNodes.map((node) => {
-        console.log(node.data.name);
         return (
           <Button
             onClick={() => {
